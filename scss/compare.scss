@@ -1,0 +1,43 @@
+.compare {
+    .scroll-content {
+        background-color: #EFEFEF;
+    }
+    .title-block {
+        font-size: 16px;
+        padding: 15px;
+        color: #717171;
+        margin-bottom: 0;
+        .bold {
+            color: #333;
+        }
+    }
+    .selection-list {
+        background-color: white;
+        position: relative;
+        .ion-chevron-right {
+            color: #CECECE;
+            position: absolute;
+            right: 15px;
+            font-size: 20px;
+        }
+    }
+    .selection-list>* {
+        font-weight: 600;
+        font-size: 16px;
+        padding: 15px 10px;
+    }
+    .selection-list>*:first-child {
+        border-top: 1px solid #E4E4E4;
+    }
+    .selection-list>*:last-child {
+        border-bottom: 1px solid #E4E4E4;
+    }
+    .selection-list>*.active, .selection-list>*.activated, .selection-list>*:active {
+        background-color: #EFEFEF;
+    }
+
+    .input-box {
+        padding: 0 10px 10px 10px;
+    }
+
+}

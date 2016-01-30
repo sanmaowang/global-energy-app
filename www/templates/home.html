@@ -1,0 +1,37 @@
+<ion-view class="home" ng-controller="HomeController">
+    <ion-header-bar class="bar-mysterious">
+        <h1 class="title">全球能源治理</h1>
+        <button class="button">口袋能源</button>
+    </ion-header-bar>
+    <div class="input-wrapper">
+        <div class="input-box" ng-class="{ 'auto-complete' : suggestions.length > 0 &amp;&amp; !hideSuggestions }">
+            <form><input ng-blur="hideSuggestions = true" ng-focus="hideSuggestions = false" ng-change="autoComplete(searchText)" ng-model="searchText" placeholder="搜索国家或组织名" type="text"/></form>
+            <div class="close-wrapper">
+                <i class="icon ion-close-round close-btn" ng-click="clearSelection($event)"></i>
+            </div>
+            <div class="auto-complete-item-list">
+                <a ng-hide="hideSuggestions" ng-click="showDetails(suggestion)" ng-repeat="suggestion in suggestions" class="auto-complete-item" href="#">{{ suggestion.name }}</a>
+            </div>
+        </div>
+    </div>
+    <ion-content class="map-container" scroll="false" overflow-scroll="false">
+        <map3d on-selection="onMap3dSelection($event, $chart)" chart-ref="chartRef"></map3d>
+        <div class="floater floater-bottom ecard-wrapper">
+            <div ng-show="showCard" class="ecard clickable" ng-click="gotoDetails(selectedItem)">
+                <div class="ecard-header red" ng-class="{ 'red' : selectedItem.type == 'country', 'yellow' : selectedItem.type == 'organization' }">
+                    <h1 class="title">{{ selectedItem.name }}</h1>
+                    <h2 class="subtitle">{{ selectedItem.name_english || selectedItem.slug }}</h2>
+                </div>
+                <div class="ecard-content">
+                    <ul class="table-list">
+                        <li class="row" ng-repeat="(key, stat) in selectedItemStat" ng-if="stat.value != undefined &amp;&amp; stat.value.length > 0">
+                            <span class="col trivial">{{ key }}：</span>
+                            <span ng-if="selectedItem.type == 'country'" class="col"><span>{{ stat.value | withUnit:stat.unit:1 }}</span><span ng-if="stat.version != undefined" class="trivial"> (截止{{stat.version}}年)</span></span>
+                            <span ng-if="selectedItem.type == 'organization'" class="col"><span>{{ stat.value }}</span></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

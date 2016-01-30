@@ -1,0 +1,18 @@
+<ion-view class="compare" ng-controller="CompareListController">
+    <ion-header-bar class="bar-mysterious">
+        <button  back-button class="button-clear"><i class="ion-chevron-left"></i>返回</button>
+        <h1 class="title">全球能源治理</h1>
+        <button class="button">口袋能源</button>
+    </ion-header-bar>
+    <ion-content>
+        <h2 class="title-block">
+            请选择要和&nbsp;<span class="bold">{{ item.name }}</span>&nbsp;对比的&nbsp;<span class="bold">{{ type2 == 'country' ? '国家' : '能源组织' }}</span>
+        </h2>
+        <div class="input-box">
+            <form><input ng-change="filterNames(searchText)" ng-model="searchText" placeholder="过滤国家或组织名" type="text"/></form>
+        </div>
+        <ul class="selection-list">
+            <li ng-repeat="selection in selections" ng-click="gotoGraph(selection)">{{ selection.name }}<span class="ion-chevron-right"></span></li>
+        </ul>
+    </ion-content>
+</ion-view>

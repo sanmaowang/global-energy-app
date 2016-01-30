@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<widget id="com.carllee.energy" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>EnergyGraph</name>
+  <description>
+     Displaying energy statistics around the world.
+  </description>
+  <author email="ljbha007@gmail.com">
+    James Bond
+  </author>
+  <content src="http://192.168.1.103:8100" original-src="index.html"/>
+  <access origin="*"/>
+  <preference name="webviewbounce" value="false"/>
+  <preference name="UIWebViewBounce" value="false"/>
+  <preference name="DisallowOverscroll" value="true"/>
+  <preference name="android-minSdkVersion" value="16"/>
+  <preference name="BackupWebStorage" value="none"/>
+  <preference name="StatusBarOverlaysWebView" value="true"/>
+  <preference name="StatusBarStyle" value="lightcontent"/>
+  <preference name="SplashScreenDelay" value="0"/>
+  <feature name="StatusBar">
+    <param name="ios-package" value="CDVStatusBar" onload="true"/>
+  </feature>
+</widget>

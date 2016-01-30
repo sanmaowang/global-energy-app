@@ -1,0 +1,58 @@
+.details {
+    .icon-grid {
+        margin: 0 15px;
+        padding: 8px 0 15px 0;
+    }
+    .table-list {
+        font-size: 14px;
+        border: 1px solid #EAEAEA;
+    }
+
+    .table-list .col {
+        padding: 8px;
+    }
+
+    .table-list .col:nth-child(1) {
+        background-color: #F7F7F7;
+        width: 135px;
+        border-right: 1px solid #EAEAEA;
+    }
+
+    .title-header {
+        text-align: center;
+        margin: 5px 10px 0 10px;
+        padding: 10px;
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .subtitle {
+            font-size: 16px;
+            color: #4D4D4D;
+            font-weight: 400;
+        }
+        @include with-divider();
+    }
+
+    .section-title {
+        font-size: 16px;
+        color: #4D4D4D;
+        font-weight: 400;
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .section {
+        padding:0 15px;;
+    }
+
+    .centered-row {
+        text-align: center;
+    }
+
+    .content-container {
+        height: 100%;
+        padding: 0 0px;
+    }
+}

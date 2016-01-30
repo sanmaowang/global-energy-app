@@ -1,0 +1,40 @@
+.home {
+    .map-container {
+        top: 0 !important;
+    }
+    .scroll-content {
+        background: linear-gradient(#22466F, #452525);
+    }
+
+    .input-wrapper {
+        top: 45px;
+    }
+
+    .close-wrapper {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 14px;
+        color: #979797;
+    }
+
+    .close-btn {
+        display: block;
+        height: 30px;
+        width: 30px;
+        border-radius: 15px;
+        background-color: #eee;
+        padding: 5px;
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .close-btn:active, .close-btn.activated, .close-btn.active {
+        background-color: #555;
+    }
+}
+
+
+.platform-ios .input-wrapper {
+    top: 65px;
+}

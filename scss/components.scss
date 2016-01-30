@@ -1,0 +1,227 @@
+// input-box
+
+.input-wrapper {
+    width: 100%;
+    padding: 15px 10px;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+}
+.input-box.auto-complete {
+    input[type=text] {
+        border-radius: 5px 5px 0 0;
+    }
+}
+.input-box {
+    width: 100%;
+}
+.input-box input[type=text] {
+    border-radius: 5px;
+    height: 40px;
+    width: 100%;
+    border: 1px solid #eee;
+    padding: 0 15px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+.auto-complete-item-list {
+    max-height: 280px;
+    overflow: scroll;
+    border-radius: 0 0 5px 5px;
+}
+.auto-complete-item {
+    display: block;
+    width: 100%;
+    height: 41px;
+    line-height: 41px;
+    background-color: white;
+    border: 1px solid #eee;
+    margin-top: -1px;
+    padding: 0 15px;
+}
+.auto-complete-item:last-child {
+    // border-radius: 0 0 5px 5px;
+}
+.auto-complete-item.active, .auto-complete-item.activated, .auto-complete-item:active {
+    background-color: #ddd;
+}
+
+// bar-myterious
+
+.bar.bar-mysterious {
+    background-image: none;
+    background-color: #28313a;
+    color: white;
+    border-color: #28313a;
+}
+
+.bar.bar-mysterious {
+    .title {
+        color: white;
+    }
+    .button {
+        background-color: #E2120A;
+        border: none;
+        color: white;
+        height: 30px;
+        line-height: 30px;
+    }
+    .button-clear {
+        font-size: 16px;
+        font-weight: normal;
+        color: white;
+    }
+    .button.active, .button.activated {
+        background-color: #9e0d07;
+        color: #aaa;
+    }
+}
+
+.bar.bar-mysterious.bar-footer {
+    background-color: #28313a;
+}
+
+// floater
+
+.floater {
+    position: fixed;
+}
+
+.floater.floater-bottom {
+    bottom: 10px;
+}
+
+// card
+
+.ecard-wrapper {
+    width: 100%;
+    padding: 10px;
+}
+
+.ecard {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    .ecard-header.red {
+        background-color: #CE0B24;
+        color: white;
+        * {
+            color: white;
+        }
+    }
+    .ecard-header.yellow {
+        background-color: #8E7F1E;
+        color: white;
+        * {
+            color: white;
+        }
+    }
+    .ecard-header {
+        margin-top: 10px;
+        padding: 5px 20px;
+        * {
+            vertical-align: bottom;
+            margin: 0;
+            display: inline-block;
+        }
+        .title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .subtitle {
+            font-size: 12px;
+        }
+    }
+
+    .ecard-content {
+        padding: 10px 20px;
+    }
+}
+
+.ecard.clickable.active, .ecard.clickable.activated, .ecard.clickable:active {
+    background-color: #ddd;
+}
+
+// table-list
+.table-list {
+    font-size: 12px;
+    width: 100%;
+    .col {
+        padding: 4px;
+    }
+    .row {
+        padding: 0;
+    }
+}
+
+.table-list .col:first-child {
+    -webkit-flex: 2;
+    flex: 2;
+}
+.table-list .col:nth-child(2) {
+    -webkit-flex: 3;
+    flex: 3;
+    font-weight: 600;
+}
+
+// icon-grid
+
+.icon-grid {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    justify-content: flex-start;
+    .icon-column {
+        // -webkit-box-flex: 1;
+        // -webkit-flex: 1;
+        // -moz-box-flex: 1;
+        // -moz-flex: 1;
+        // -ms-flex: 1;
+        // flex: 1;
+        width: 69px;
+        display: block;
+        margin-bottom: 5px;
+    }
+    .icon-text {
+        text-align: center;
+        margin-top: 4px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+}
+.icon-wrapper {
+    width: 32px;
+    height: 32px;
+    border-radius: 15px;
+    border: 1px solid #979797;
+    background-repeat: no-repeat;
+    background-size: cover;
+    // background-position: center;
+    margin: auto;
+}
+
+// clear-button
+.clear-button {
+    border: 1px solid #FCA7A8;
+    color: #FCA7A8;
+    background-color: transparent;
+}
+.clear-button.large {
+    font-size: 18px;
+    padding: 8px 15px;
+}
+.clear-button.active, .clear-button.activated, .clear-button:active {
+    color: white;
+    background-color: #FCA7A8;
+}
+
+.chart {
+    display: block;
+    width: 100%;
+    height: 340px;
+}

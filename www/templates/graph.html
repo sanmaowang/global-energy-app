@@ -1,0 +1,24 @@
+<ion-view class="graph" ng-controller="GraphController">
+    <ion-header-bar class="bar-mysterious">
+        <button  back-button class="button-clear"><i class="ion-chevron-left"></i>返回</button>
+        <h1 class="title">全球能源治理</h1>
+        <button class="button">口袋能源</button>
+    </ion-header-bar>
+    <ion-content>
+        <h1 class="title-header with-divider">
+            {{ item1.name }}<span class="versus">对比</span>{{ item2.name }}
+        </h1>
+        <div class="graphs">
+            <div class="graph" ng-repeat="(key, stat) in stats">
+                <chart class="chart" 
+                    chart-title="key + (stat.unit == undefined ? '': '(' + stat.unit + ')')"
+                    data1-legend="item1.name"
+                    data2-legend="item2.name"
+                    data1="stat.values1" 
+                    data2="stat.values2" 
+                    labels="stat.versions">
+                </chart>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
