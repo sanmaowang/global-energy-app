@@ -9212,7 +9212,7 @@ input[type=text] {
   padding: 10px; }
 
 .ecard {
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0.29);
   border-radius: 8px;
   overflow: hidden; }
   .ecard .ecard-header.red {
@@ -9240,6 +9240,10 @@ input[type=text] {
       font-size: 12px; }
   .ecard .ecard-content {
     padding: 10px 20px; }
+  .ecard .key {
+    color: #979797; }
+  .ecard .value {
+    color: white; }
 
 .ecard.clickable.active, .ecard.clickable.activated, .ecard.clickable:active {
   background-color: #ddd; }

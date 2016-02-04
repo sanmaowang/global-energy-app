@@ -25,9 +25,9 @@
                 <div class="ecard-content">
                     <ul class="table-list">
                         <li class="row" ng-repeat="(key, stat) in selectedItemStat" ng-if="stat.value != undefined &amp;&amp; stat.value.length > 0">
-                            <span class="col trivial">{{ key }}：</span>
-                            <span ng-if="selectedItem.type == 'country'" class="col"><span>{{ stat.value | withUnit:stat.unit:1 }}</span><span ng-if="stat.version != undefined" class="trivial"> (截止{{stat.version}}年)</span></span>
-                            <span ng-if="selectedItem.type == 'organization'" class="col"><span>{{ stat.value }}</span></span>
+                            <span class="col key">{{ key }}：</span>
+                            <span ng-if="selectedItem.type == 'country'" class="col value"><span>{{ stat.value | withUnit:stat.unit:1 }}</span><span ng-if="stat.version != undefined"> (截止{{stat.version}}年)</span></span>
+                            <span ng-if="selectedItem.type == 'organization'" class="col value"><span>{{ stat.value }}</span></span>
                         </li>
                     </ul>
                 </div>

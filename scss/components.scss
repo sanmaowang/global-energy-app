@@ -100,7 +100,7 @@
 }
 
 .ecard {
-    background-color: white;
+    background-color: rgba(0, 0, 0, 0.29);
     border-radius: 8px;
     overflow: hidden;
     .ecard-header.red {
@@ -137,6 +137,12 @@
 
     .ecard-content {
         padding: 10px 20px;
+    }
+    .key {
+        color: #979797;
+    }
+    .value {
+        color: white;
     }
 }
 
