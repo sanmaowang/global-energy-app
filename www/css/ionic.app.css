@@ -9265,6 +9265,30 @@ input[type=text] {
   flex: 3;
   font-weight: 600; }
 
+.table-action {
+  width: 100%;
+  border-top: 1px solid #323232; }
+  .table-action a {
+    color: #fff; }
+  .table-action td {
+    width: 33%;
+    padding: 5px 0; }
+  .table-action .btn-detail {
+    background: url(../img/icons/detail-icon@2x.png) no-repeat 0 0;
+    background-size: 17px 100%;
+    padding-left: 20px;
+    line-height: 32px; }
+  .table-action .btn-data {
+    background: url(../img/icons/data-icon@2x.png) no-repeat 0 0;
+    background-size: 17px 100%;
+    padding-left: 20px;
+    line-height: 32px; }
+  .table-action .btn-map {
+    background: url(../img/icons/map-icon@2x.png) no-repeat 0 0;
+    background-size: 17px 100%;
+    padding-left: 20px;
+    line-height: 32px; }
+
 .icon-grid {
   display: -webkit-box;
   display: -moz-box;
@@ -9396,6 +9420,13 @@ map3d {
 .details .content-container {
   height: 100%;
   padding: 0 0px; }
+
+.details .bottom-row {
+  padding: 0 15px;
+  position: relative;
+  text-align: center; }
+  .details .bottom-row button {
+    margin: 0 2px; }
 
 .compare .scroll-content {
   background-color: #EFEFEF; }

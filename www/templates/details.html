@@ -36,7 +36,11 @@
                     </li>
                 </ul>
             </div>
-            <div class="centered-row margin-bottom-large"><button ng-click="goChooseCompareType()" class="clear-button large">数据对比</button></div>
+            <div class="action bottom-row">
+                <button ng-click="goChooseCompareType()" ng-if="members != undefined &amp;&amp; members.length > 0"  class="clear-button large">发展趋势</button>
+                <button ng-click="goChooseCompareType()" class="clear-button large">数据对比</button>
+                <button ng-click="goChooseCompareType()" class="clear-button large">地缘对比</button>
+            </div>
         </div>
     </ion-content>
 </ion-view>

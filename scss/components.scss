@@ -171,7 +171,35 @@
     flex: 3;
     font-weight: 600;
 }
-
+.table-action{
+    width: 100%;
+    border-top:1px solid #323232;
+    a{
+        color: #fff;
+    }
+    td{
+        width: 33%;
+        padding: 5px 0;
+    }
+    .btn-detail{
+        background:url(../img/icons/detail-icon@2x.png) no-repeat 0 0;
+        background-size:17px 100%;
+        padding-left:20px;
+        line-height: 32px;
+    }
+    .btn-data{
+        background:url(../img/icons/data-icon@2x.png) no-repeat 0 0;
+        background-size:17px 100%;
+        padding-left:20px;
+        line-height: 32px;
+    }
+    .btn-map{
+        background:url(../img/icons/map-icon@2x.png) no-repeat 0 0;
+        background-size:17px 100%;
+        padding-left:20px;
+        line-height: 32px;
+    }
+}
 // icon-grid
 
 .icon-grid {

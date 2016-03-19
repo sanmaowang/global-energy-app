@@ -55,4 +55,13 @@
         height: 100%;
         padding: 0 0px;
     }
+
+    .bottom-row{
+        padding: 0 15px;
+        position: relative;
+        text-align: center;
+        button{
+            margin: 0 2px;
+        }
+    }
 }

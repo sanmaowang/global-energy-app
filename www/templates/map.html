@@ -1,0 +1,22 @@
+<ion-view class="graph" ng-controller="MapController">
+    <ion-header-bar class="bar-mysterious">
+        <button  back-button class="button-clear"><i class="ion-chevron-left"></i>返回</button>
+        <h1 class="title">全球能源治理</h1>
+        <button class="button">口袋能源</button>
+    </ion-header-bar>
+    <ion-content>
+        <map2d chart-ref="chartRef"></map2d>
+        <h1 class="title-header with-divider">
+            {{ item1.name }}<span class="versus">对比</span>{{ item2.name }}
+        </h1>
+        <div class="result-block">
+            <h3>{{ item1.name }} （10）</h3>
+        </div>
+        <div class="result-block">
+            <h3>{{ item2.name }} （12）</h3>
+        </div>
+        <div class="result-block">
+            <h3>同属于两个组织的国家（10）</h3>
+        </div>
+    </ion-content>
+</ion-view>
