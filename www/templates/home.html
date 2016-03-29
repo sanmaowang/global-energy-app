@@ -17,13 +17,13 @@
     <ion-content class="map-container" scroll="false" overflow-scroll="false">
         <map3d on-selection="onMap3dSelection($event, $chart)" chart-ref="chartRef"></map3d>
         <div class="floater floater-bottom ecard-wrapper">
-            <div ng-show="showCard" class="ecard clickable" ng-click="gotoDetails(selectedItem)">
+            <div ng-show="showCard" class="ecard clickable">
                 <div class="ecard-header red" ng-class="{ 'red' : selectedItem.type == 'country', 'yellow' : selectedItem.type == 'organization' }">
                     <h1 class="title">{{ selectedItem.name }}</h1>
                     <h2 class="subtitle">{{ selectedItem.name_english || selectedItem.slug }}</h2>
                 </div>
                 <div class="ecard-content">
-                    <ul class="table-list">
+                    <ul class="table-list" ng-click="gotoDetails(selectedItem)">
                         <li class="row" ng-repeat="(key, stat) in selectedItemStat" ng-if="stat.value != undefined &amp;&amp; stat.value.length > 0">
                             <span class="col key">{{ key }}：</span>
                             <span ng-if="selectedItem.type == 'country'" class="col value"><span>{{ stat.value | withUnit:stat.unit:1 }}</span><span ng-if="stat.version != undefined"> (截止{{stat.version}}年)</span></span>
@@ -32,12 +32,13 @@
                     </ul>
                     <table class="table-action">
                         <tr>
-                        <td><a href="#" class="btn-detail">详细数据</a></td>
-                        <td><a href="#" class="btn-data">数据对比</a></td>
-                        <td><a href="#" class="btn-map">地缘对比</a></td>
+                        <td><a href="#" class="btn-detail" ng-click="gotoDetails(selectedItem)">详细数据</a></td>
+                        <td><a href="#" class="btn-data" ng-click="goChooseCompareType(selectedItem)">数据对比</a></td>
+                        <td><a href="#" class="btn-map" ng-if="selectedItem.type == 'organization'" ng-click="goChooseMapCompareType(selectedItem)">地缘对比</a></td>
                         </tr>
                     </table>
                 </div>
+                
             </div>
         </div>
     </ion-content>

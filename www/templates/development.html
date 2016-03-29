@@ -11,11 +11,11 @@
                     data3="members3"
                     data1-legend="item1.name"
                     data2-legend="item2.name"></map2d>
-        <div class="map-compare-header">
-                <span class="item-left">{{ item1.name }}</span><span class="versus">对比</span><span class="item-right">{{ item2.name }}</span>
-        </div>
+        <h1 class="title-header with-divider">
+            {{ item1.name }}<span class="versus">对比</span>{{ item2.name }}
+        </h1>
         <div class="map-result-block" ng-if="members1 != 'undefined'">
-            <h3 class="item-left-title">{{ item1.name }} （{{members1.length}}）</h3>
+            <h3>{{ item1.name }} （{{members1.length}}）</h3>
             <div class="result-main">
                 <ul>
                     <li ng-repeat="item in members1">
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="map-result-block" ng-if="members2 != 'undefined'">
-            <h3 class="item-right-title">{{ item2.name }}（{{members2.length}}）</h3>
+            <h3>{{ item2.name }}（{{members2.length}}））</h3>
             <div class="result-main">
                 <ul>
                     <li ng-repeat="item in members2">
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="map-result-block" ng-if="members3 != 'undefined'">
-            <h3 class="item-mix-title">同属于两个组织的国家（{{members3.length}}）</h3>
+            <h3>同属于两个组织的国家（{{members3.length}}）</h3>
             <div class="result-main">
                 <ul>
                     <li ng-repeat="item in members3">

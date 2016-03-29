@@ -10,12 +10,93 @@
         vertical-align: middle;
     }
     .versus {
-        background-color: #FCA42F;
+        background-color: #E10800;
         color: white;
         margin: auto 20px;
         font-size: 12px;
         padding: 5px;
         border-radius: 3px;
         vertical-align: middle;
+    }
+    .map2d{
+        width: 100%;
+        height: 200px;
+        display: block;
+    }
+}
+$item-left-color:#B23D3F;
+$item-right-color:#F6AB20;
+$item-mix-color:#639E2E;
+.map{
+    background: #1E2832;
+    color: #fff;
+    .scroll-content{
+        padding:0;
+    }
+    .map-compare-header{
+      text-align: center;
+      font-size: 16px;
+      padding:15px 0;
+      background-color:#000;
+      color: #fff;
+      .item-left,.item-right{
+        position:relative;
+        margin-left:30px;
+        &:before{
+          display: block;
+          position: absolute;
+          content: "";
+          left:-30px;
+          top:0;
+          width: 20px; 
+          height: 20px; 
+          background: $item-left-color; 
+          border-radius: 10px; 
+        }
+      }
+      .item-right{
+        &:before{
+          background:$item-right-color !important;
+        }
+      }
+    }
+    .map-result-block{
+        margin: 15px;
+        background:#323C46;
+        -moz-border-radius: 6px; 
+        -webkit-border-radius: 6px; 
+        border-radius: 6px; 
+        padding-bottom:5px;
+        h3{
+          border-top-left-radius:6px;
+          border-top-right-radius:6px;
+          margin: 0;
+          padding:10px 15px;
+          font-size:16px;
+          color: #fff;
+        }
+        .item-left-title{
+          background:$item-left-color;
+        }
+        .item-right-title{
+          background:$item-right-color;
+        }
+        .item-mix-title{
+          background:$item-mix-color;
+        }
+        ul{
+          margin: 5px;
+            li{
+                list-style: none;
+                display: inline-block;
+                margin: 5px 0;
+                width: 25%;
+                height: 20px;
+                text-align: center;
+                overflow: hidden;
+                white-space:nowrap;
+                text-overflow: clip;
+            }
+        }
     }
 }

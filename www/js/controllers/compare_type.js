@@ -7,10 +7,11 @@
     CompareTypeController.$inject = ['$scope', '$state', '$stateParams', '$energyDao'];
 
     function CompareTypeController($scope, $state, $stateParams, $energyDao){
-        var selectedType, selectedId;
+        var selectedType, selectedId, selectedFunc;
         $scope.$on('$ionicView.enter', function(){
             selectedType = $stateParams.type;
             selectedId = $stateParams.id;
+            $scope.func = selectedFunc = $stateParams.func;
             if(selectedType == 'country'){
                 $energyDao.getCountryById(selectedId)
                     .then(onItemProperties, onItemPropertiesError);
@@ -22,6 +23,7 @@
 
         $scope.chooseType = function(type2){
             $state.go('compare_list', {
+                func:selectedFunc,
                 type1: selectedType,
                 id1: selectedId,
                 type2: type2

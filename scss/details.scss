@@ -1,42 +1,47 @@
 .details {
+    background-color:#1E2832;
+    color: #fff;
     .icon-grid {
         margin: 0 15px;
         padding: 8px 0 15px 0;
     }
     .table-list {
         font-size: 14px;
-        border: 1px solid #EAEAEA;
     }
 
     .table-list .col {
         padding: 8px;
+        background-color:#fff;
+        color: #4A4A4A;
     }
 
     .table-list .col:nth-child(1) {
-        background-color: #F7F7F7;
+        background-color: #323C46;
+        color: #fff;
         width: 135px;
         border-right: 1px solid #EAEAEA;
     }
 
     .title-header {
         text-align: center;
-        margin: 5px 10px 0 10px;
-        padding: 10px;
+        padding: 15px 10px 10px;
+        background-color:#404A5A;
+        border-bottom: 1px solid #000;
         .title {
             font-size: 20px;
             font-weight: bold;
+            color: #fff;
         }
         .subtitle {
             font-size: 16px;
-            color: #4D4D4D;
+            color: #fff;
             font-weight: 400;
         }
-        @include with-divider();
     }
 
     .section-title {
         font-size: 16px;
-        color: #4D4D4D;
+        color: #fff;
         font-weight: 400;
         text-align: center;
         margin-top: 10px;

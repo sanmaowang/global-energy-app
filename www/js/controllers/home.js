@@ -59,6 +59,9 @@
                 });
             }else if(item.type == 'organization'){
                 $scope.selectedItem = item;
+                console.log(item);
+                $energyDao.getOrganizationMemberById(item.id)
+                        .then(onOrgMap,onOrgMapError);
                 var stat = {};
                 for(var attr in item){
                     if(attr in orgMetaDataMap){
@@ -85,6 +88,20 @@
                 id: item.id
             });
         }
+        $scope.goChooseCompareType = function(item){
+            $state.go('compare_type', {
+                func:'graph',
+                type: item.type,
+                id: item.id
+            });
+        }
+        $scope.goChooseMapCompareType = function(item){
+            $state.go('compare_type', {
+                func:'map',
+                type: item.type,
+                id: item.id
+            });
+        }
         $scope.clearSelection = function($event){
             $event.preventDefault();
             $event.stopPropagation();
@@ -106,6 +123,16 @@
             cordova.plugins.Keyboard.close();
         }
 
+        function mapData(arr) {
+            var newArr = [];
+            for(var i = 0; i < arr.length; i++){
+              var obj = {};
+              obj.name = arr[i].name_english;
+              obj.selected = true;
+              newArr.push(obj);
+            }
+            return newArr;
+        };
         function onCountrySearchResult(result){
             var rows = result.rows;
             var suggestions = $scope.suggestions || [];
@@ -154,21 +181,44 @@
             if(metaDataMap == undefined){
                 metaDataMap = $energyDao.getStatsMetaDataMap();
             }
+            //which data should be shown 
+            var meta = ['EG.ELC.ACCS.ZS','EG.IMP.CONS.ZS','EG.USE.COMM.CL.ZS','EG.USE.PCAP.KG.OE','EN.ATM.CO2E.KT'];
             for(var i = 0; i < rows.length; i++){
                 var item = rows.item(i);
                 var rawKey = item.data_key;
-                // Get chinese name from meta data map
-                var key = metaDataMap[rawKey];
-                stats[key] = {
-                    value: item.data_value,
-                    version: item.data_version
+                if(meta.indexOf(rawKey) > 0){
+                    // Get chinese name from meta data map
+                    var key = metaDataMap[rawKey];
+                    stats[key] = {
+                        value: item.data_value,
+                        version: item.data_version
+                    }
+                    if(rawKey in units){
+                        stats[key].unit = units[rawKey];
+                    }
                 }
-                if(rawKey in units){
-                    stats[key].unit = units[rawKey];
-                }
+
                 console.log(JSON.stringify(item));
             }
             $scope.selectedItemStat = stats;
+        }
+
+        function onOrgMap(result){
+            var _orgs = mapData(result.rows);
+            var chart = $scope.chartRef.ref;
+            chart.setOption({
+                series: [{
+                    type: 'map3d',
+                    data: _orgs,
+                    roam: {
+                        // focus: map3d(_orgs)
+                    }
+                }]
+            });
+        }
+
+        function onOrgMapError(error){
+            console.log('Something went wrong when getting coutry stats: ', error);
         }
 
         function onCountryStatsError(error){

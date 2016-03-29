@@ -9,7 +9,7 @@
             请选择要和&nbsp;<span class="bold">{{ item.name }}</span>&nbsp;对比的
         </h2>
         <ul class="selection-list">
-            <li ng-click="chooseType('country')">国家<span class="ion-chevron-right"></span></li>
+            <li ng-if="func == 'graph'" ng-click="chooseType('country')">国家<span class="ion-chevron-right"></span></li>
             <li ng-click="chooseType('organization')">能源组织<span class="ion-chevron-right"></span></li>
         </ul>
     </ion-content>

@@ -17,11 +17,11 @@
                 templateUrl: 'templates/details.html'
             })
             .state('compare_type', {
-                url: '/compare_type/:type/:id',
+                url: '/compare_type/:func/:type/:id',
                 templateUrl: 'templates/compare_type.html'
             })
             .state('compare_list', {
-                url: '/compare_list/:type1/:id1/:type2',
+                url: '/compare_list/:func/:type1/:id1/:type2',
                 templateUrl: 'templates/compare_list.html'
             })
             .state('map', {

@@ -7,12 +7,13 @@
     CompareListController.$inject = ['$scope', '$state', '$stateParams', '$energyDao'];
 
     function CompareListController($scope, $state, $stateParams, $energyDao){
-        var type1, id1, type2;
+        var type1, id1, type2, func;
         var selections;
         $scope.$on('$ionicView.enter', function(){
             type1 = $stateParams.type1;
             id1 = $stateParams.id1;
             type2 = $stateParams.type2;
+            func = $stateParams.func;
             $scope.type2 = type2;
             selections = [];
 
@@ -43,7 +44,7 @@
         }
 
         $scope.gotoGraph = function(selection){
-            $state.go('graph', {
+            $state.go(func, {
                 type1: type1,
                 id1: id1,
                 type2: type2,

@@ -67,6 +67,14 @@
         });
         $scope.goChooseCompareType = function(){
             $state.go('compare_type', {
+                func:'graph',
+                type: $scope.itemType,
+                id: $scope.item.id
+            });
+        }
+        $scope.goChooseMapCompareType = function(){
+            $state.go('compare_type', {
+                func:'map',
                 type: $scope.itemType,
                 id: $scope.item.id
             });
