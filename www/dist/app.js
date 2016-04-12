@@ -303,6 +303,22 @@
                 });
                 return this._current_aggregation_deferred.promise;
             },
+            getMemberCountryStats: function(data){
+                //develop
+                var members = data.members;
+                var data_key = data.data_key;
+                this._current_aggregation_deferred = $q.defer();
+                this._total_aggregations_count  = members.length;
+                this._aggregated_stats = {};
+                this._current_aggregation_count = 0;
+                var that = this;
+                members.forEach(function(member){
+                    that.getCountryOneStat(member.id,data_key)
+                        .then(that._on_org_country_stats.bind(that),
+                              that._on_aggregation_error.bind(that));
+                });
+                return this._current_aggregation_deferred.promise;
+            },
             getOrganizationById: function(orgId){
                 var sql = "SELECT * FROM organization WHERE id=?";
                 return this.runQuery(sql, [orgId]);
@@ -334,6 +350,10 @@
             getAllCountries: function(){
                 var sql = "SELECT * FROM country;"
                 return this.runQuery(sql, []);
+            },
+            getCountryOneStat: function(countryId, data_key){
+                var sql = "SELECT * FROM country_data WHERE country_id=? AND data_key = ? ORDER BY data_version ASC";
+                return this.runQuery(sql, [countryId, data_key]);
             },
             getCountryAllStats: function(countryId){
                 var sql = "SELECT * FROM country_data WHERE country_id=? ORDER BY data_version ASC";
@@ -377,6 +397,33 @@
             },
             _on_aggregation_error: function(error){
                 console.log('error aggregating country stats', error);
+            },
+            _on_org_country_stats: function(result){
+                var rows = result.rows;
+                var metaDataMap = this.getStatsMetaDataMap();
+                var aggregatedStats = this._aggregated_stats;
+                var parseFloat = window.parseFloat || Number.parseFloat;
+                // every row is a country
+                var country_stats_data = {};
+
+                for(var i = 0; i < rows.length; i++){
+                    var item = rows.item(i);
+                    var rawKey = item.country_id;
+                    if(!(rawKey in aggregatedStats)){
+                        aggregatedStats[rawKey] = {};
+                        aggregatedStats[rawKey].source = [];
+                    }
+                    country_stats_data.id = rawKey;
+                    var _data = {};
+                    _data.data_version = item.data_version;
+                    _data.data_value = item.data_value;
+                    aggregatedStats[rawKey].source.push(_data);
+                }
+
+                this._current_aggregation_count++;
+                if(this._current_aggregation_count == this._total_aggregations_count){
+                    this._current_aggregation_deferred.resolve(aggregatedStats);
+                }
             },
             _on_country_stats: function(result){
                 var rows = result.rows;
@@ -702,6 +749,128 @@
         }
     }
 })();
+// develop2d.js
+(function() {
+    angular
+        .module('energy.directives')
+        .directive('develop2d', develop2d);
+    function develop2d(){
+        return {
+            restrict: 'E',
+            scope: {
+                'data1' : '=data1',
+                'data2' : '=data2',
+                'data3' : '=data3',
+                'data4' : '=data4',
+                'data1Legend' : '=data1Legend'
+            },
+            link: function(scope, element){
+                // 然后就可以动态加载图表进行绘制啦
+                require([
+                    'echarts',
+                    'echarts/config',
+                    'echarts/chart/map',
+                ], renderMap2d);
+                
+                function renderMap2d(ec, ecConfig){
+                    var chart = ec.init(element[0]);
+                    var map_data = scope.data1;
+                    var dataKey = scope.data1Legend;
+                    var _min = scope.data2;
+                    var _max = scope.data3;
+                    var _sep = (_max-_min)/3;
+                    var _years = scope.data4;
+                    var _options = [];
+                    var statAlias = {
+                        'EN.ATM.CO2E.KT':'碳排放总量',
+                        'NY.GDP.MKTP.CD' :'GDP',
+                        'SP.POP.TOTL':'人口总量'
+                    };
+                    var _title = statAlias[dataKey];
+
+                    for(var i = 0; i < _years.length; i++){
+                        var _year = _years[i];
+                        if(i == 0){
+                            var _option_obj = {
+                                title : {
+                                    'text':_year +'年'+ _title,
+                                    'x':'center',
+                                    'y':30,
+                                    'textStyle':{
+                                      fontSize: 18,
+                                      fontWeight: 'bolder',
+                                      color: '#fff'
+                                    }
+                                },
+                                dataRange: {
+                                    min: _min,
+                                    max : _max,
+                                    color: ['#1e90ff','#f0ffff'],
+                                    splitNumber: 5,
+                                    x:'center',
+                                    y:300,
+                                    orient: 'horizontal',
+                                    textStyle:{color:'#fff'},
+                                    text:['高','低'],
+                                },
+                                series : [
+                                    {
+                                        'name':'GDP',
+                                        'type': 'map',
+                                        'mapType': 'world',
+                                        'data': map_data[_year]
+                                    }
+                                ]
+                            };
+                        }else{
+                            var _option_obj = {
+                                title : {
+                                    'text':_year +'年'+ _title,
+                                },
+                                series : [
+                                    {'data': map_data[_year]}
+                                ]
+                            }
+                        }
+                        _options.push(_option_obj);
+                    }
+
+                    var option = {
+                        timeline:{
+                            data:_years,
+                            x:'5%',
+                            width:'90%',
+                            y:320,
+                            label : {
+                                show: false,
+                            },
+                            controlPosition: 'left',
+                            autoPlay : true,
+                            lineStyle:{
+                                color: '#333',
+                                width: 1,
+                                type: 'solid'
+                            },
+                            controlStyle:{
+                                itemSize: 12,
+                                itemGap: 5,
+                                normal : {
+                                    color : '#ccc'
+                                },
+                                emphasis : {
+                                    color : '#fff'
+                                }
+                            },                               
+                            playInterval : 1500
+                        },
+                        options:_options
+                    };
+                    chart.setOption(option); 
+                }
+            } //link
+        }
+    }
+})();
 // map2d.js
 (function() {
     angular
@@ -847,7 +1016,7 @@
                             minZoom: 1,
                             maxZoom: 3,
                             itemStyle:{
-                                emphasis:{label:{show:false},areaStyle:{color:'#d94e5d'} }
+                                emphasis:{label:{show:false},areaStyle:{color:'#F34C4D'} }
                             },
                             // Empty data
                             data: [{}]
@@ -1092,6 +1261,13 @@
                     .then(onCountryStats, onCountryStatsError);
             }
         });
+        $scope.goChooseDevType = function(){
+            $state.go('development', {
+                type: $scope.itemType,
+                id: $scope.item.id,
+                pane:'gdp'
+            });
+        }
         $scope.goChooseCompareType = function(){
             $state.go('compare_type', {
                 func:'graph',
@@ -1104,6 +1280,10 @@
                 func:'map',
                 type: $scope.itemType,
                 id: $scope.item.id
+            });
+        }
+        $scope.back = function(){
+            $state.go('home', {
             });
         }
 
@@ -1214,6 +1394,238 @@
             }
             $scope.members = members;
             return members;
+        }
+        function onMembersError(error){
+            console.log('error fetching organization members', error);
+        }
+
+        function onCountryProperties(result){
+            console.log('Country properties result:', result);
+            var rows = result.rows;
+            if(rows.length > 0){
+                var item = $scope.item = rows.item(0);
+                var properties = {};
+                for(var attr in item){
+                    if(attr in countryMetaDataMap){
+                        var key = countryMetaDataMap[attr];
+                        properties[key] = item[attr];
+                    }
+                }
+                $scope.properties = properties;
+            }else{
+                onOrganizationPropertiesError(new Error("no country found"));
+            }
+        }
+        function onCountryPropertiesError(error){
+            console.log('error fetching country properties', error);
+        }
+        function onCountryStats(result){
+            var rows = result.rows;
+            var stats = {};
+            console.log('Country stats results: ', result);
+            if(metaDataMap == undefined){
+                metaDataMap = $energyDao.getStatsMetaDataMap();
+            }
+            for(var i = 0; i < rows.length; i++){
+                var item = rows.item(i);
+                // Get chinese name from meta data map
+                var key = metaDataMap[item.data_key];
+                stats[key] = {
+                    value: item.data_value,
+                    version: item.data_version
+                }
+                if(item.data_key in  units){
+                    stats[key].unit = units[item.data_key];
+                }
+                console.log(JSON.stringify(item));
+            }
+            $scope.stats = stats;
+        }
+        function onCountryStatsError(error){
+            console.log('error fetching country stats', error);
+        }
+    }
+})();
+//details.js
+(function(){
+    angular
+        .module('energy.controllers')
+        .controller('DevelopmentController', DevelopmentController);
+
+    DevelopmentController.$inject = ['$scope', '$state', '$stateParams', '$energyDao'];
+
+    function DevelopmentController($scope, $state, $stateParams, $energyDao){
+        var metaDataMap;
+        var orgMetaDataMap = $energyDao.getOrgPropertyMetaDataMap();
+        var countryMetaDataMap = $energyDao.getCountryPropertyMetaDataMap();
+        var aggregatedStats = {};
+        var currrentAggregationsCount = 0;
+        var totalAggregationsCount = 0;
+        var sum = {
+            aggregate: function(val1, val2){
+                return val1 + val2;
+            },
+            finalAggregate: function(finalVal, count){
+                return finalVal;
+            }
+        }
+        var average = {
+            aggregate: function(val1, val2){
+                return val1 + val2;
+            },
+            finalAggregate: function(finalVal, count){
+                return finalVal / count;
+            }
+        }
+        var statsAggregators = {
+            'EG.ELC.ACCS.ZS' : average,
+            'EG.IMP.CONS.ZS' : average,
+            'EG.USE.COMM.CL.ZS' : average,
+            'EG.USE.PCAP.KG.OE' : average,
+            'EN.ATM.CO2E.KT' : sum,
+            'NY.GDP.MKTP.CD' : sum,
+            'SP.POP.TOTL' : sum
+        };
+        var statAlias = {
+            'co2':'EN.ATM.CO2E.KT',
+            'gdp':'NY.GDP.MKTP.CD' ,
+            'population':'SP.POP.TOTL'
+        };
+        var units = {
+            'NY.GDP.MKTP.CD' : '亿',
+            'SP.POP.TOTL' : '万'
+        }
+        $scope.mapData;
+
+        var parseInt = window.parseInt || Number.parseInt;
+        var itemId;
+        $scope.$on('$ionicView.enter', function(){
+            $scope.itemType = $stateParams.type;
+            itemId = $stateParams.id;
+            $scope.pane = $stateParams.pane;
+            $scope.dataKey = statAlias[$stateParams.pane];
+
+            if($scope.itemType == 'organization'){
+                $energyDao.getOrganizationById(itemId)
+                    .then(onOrganizationProperties, onOrganizationPropertiesError);
+                $energyDao.getOrganizationMemberById(itemId)
+                    .then(onMembers, onMembersError)
+                    .then($energyDao.getMemberCountryStats.bind($energyDao))
+                    .then(onOrganizationCountryStats, onOrganizationStatsError);
+            }else if($scope.itemType == 'country'){
+                $energyDao.getCountryById(itemId)
+                    .then(onCountryProperties, onCountryPropertiesError);
+                $energyDao.getCountryLatestStats(itemId)
+                    .then(onCountryStats, onCountryStatsError);
+            }
+        });
+        $scope.select = function(res){
+            $state.go('development', {
+                type: $scope.itemType,
+                id: $scope.item.id,
+                pane: res
+            });
+        }
+        $scope.back = function(){
+            $state.go('details', {
+                type: $scope.itemType,
+                id: $scope.item.id,
+            });
+        }
+        
+        function onOrganizationCountryStats(result){
+            var members = $scope.members;
+            var _start_year = parseInt($scope.item.founding_year.slice(0,4));
+            var _years = [];
+            var _year = '';
+            var _obj = {};
+            var _min = 0,_max = 0;
+            
+            for(var i = _start_year; i <= 2014; i=i+3){
+                _years.push(''+i);
+            }
+            if(_years[_years.length - 1] < 2014){
+                _years.push('2014');
+            }
+
+            for(var key in members){
+                var _key = members[key].id;
+                if(typeof result[_key] != "undefined"){
+                    result[_key].name = members[key].name;
+                    result[_key].name_english = members[key].name_english;
+                    result[_key].name_official = members[key].name_official;
+                }
+            }
+
+            for(var key1 in result){
+                var _source = result[key1].source;
+                for(var key2 in _source){
+                    _year = _source[key2].data_version;
+                    if(_years.indexOf(_year) > -1){
+                        if(typeof _obj[_year] == 'undefined'){
+                            _obj[_year] = [];
+                        }
+                        var _data = {};
+                        _data.name = result[key1].name_english;
+                        _data.value = parseFloat(_source[key2].data_value);
+                        if(_min == 0 && _max == 0){
+                            _min = _data.value;
+                            _max = _data.value;
+                        }else if(_data.value > _max){
+                            _max = _data.value;
+                        }else if(_data.value < _min){
+                            _min = _data.value;
+                        }
+                        _obj[_year].push(_data);
+                    }
+                }
+            }
+            $scope.mapData = _obj;
+            $scope._min = _min;
+            $scope._max = _max;
+            $scope.years = _years;
+            console.log('onOrganizationStats',$scope.mapData);
+        }
+
+        function onOrganizationStatsError(error){
+            console.log('error getting organization stats', error);
+        }
+        
+        function onOrganizationProperties(result){
+            console.log('Organization properties result: ', result);
+            var rows = result.rows;
+            if(rows.length > 0){
+                var item = $scope.item = rows.item(0);
+                var properties = {};
+                for(var attr in item){
+                    if(attr in orgMetaDataMap){
+                        var key = orgMetaDataMap[attr];
+                        properties[key] = item[attr];
+                        // console.log(key + ':' + item[attr]);
+                    }
+                }
+                $scope.properties = properties;
+            }else{
+                onOrganizationPropertiesError(new Error("no organization found"));
+            }
+        }
+        function onOrganizationPropertiesError(error){
+            console.log('error fetching organization', error);
+        }
+        
+        function onMembers(result){
+            console.log('onMembers', result);
+            var rows = result.rows;
+            var members = [];
+            var data = {};
+            for(var i = 0; i < rows.length; i++){
+                var item = rows.item(i);
+                members.push(item);
+            }
+            $scope.members = members;
+            data.members = members;
+            data.data_key = $scope.dataKey;
+            return data;
         }
         function onMembersError(error){
             console.log('error fetching organization members', error);
@@ -1498,18 +1910,33 @@
                 chart.setOption({
                     series: [{
                         type: 'map3d',
+                        baseLayer: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.3)'
+                        },
+                        mapLocation: {
+                            x: 0,
+                            y: 0,
+                            width: "100%",
+                            height: "100%"
+                        },
+                        minZoom: 1,
+                        maxZoom: 3,
+                        itemStyle:{
+                            emphasis:{label:{show:false},areaStyle:{color:'#F34C4D'} }
+                        },
                         data: [{
                             name: selectedItemName,
                             selected: true
                         }],
                         roam: {
-                            focus: selectedItemName
+                            focus: selectedItemName,
+                            autoRotate: true,
+                            preserve: false
                         }
                     }]
-                });
+                },true);
             }else if(item.type == 'organization'){
                 $scope.selectedItem = item;
-                console.log(item);
                 $energyDao.getOrganizationMemberById(item.id)
                         .then(onOrgMap,onOrgMapError);
                 var stat = {};
@@ -1560,17 +1987,31 @@
                 series: [{
                     type: 'map3d',
                     data: [{
-                        name: selectedItemName,
-                        selected: false
                     }],
-                    roam: {}
+                    baseLayer: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.3)'
+                    },
+                    mapLocation: {
+                        x: 0,
+                        y: 0,
+                        width: "100%",
+                        height: "100%"
+                    },
+                    roam: {
+                        autoRotate: true,
+                        preserve: false
+                    },
+                    minZoom: 1,
+                    maxZoom: 3
                 }]
-            });
+            },true);
             // $scope.selectedItem = undefined;
             $scope.searchText = undefined;
             $scope.suggestions = [];
             $scope.showCard = false;
-            cordova.plugins.Keyboard.close();
+            if(typeof cordova != 'undefined'){
+                cordova.plugins.Keyboard.close();
+            }
         }
 
         function mapData(arr) {
@@ -1656,15 +2097,32 @@
         function onOrgMap(result){
             var _orgs = mapData(result.rows);
             var chart = $scope.chartRef.ref;
+            var _focus = _orgs[0].name || "";
             chart.setOption({
                 series: [{
                     type: 'map3d',
                     data: _orgs,
+                    baseLayer: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.3)'
+                    },
+                    mapLocation: {
+                        x: 0,
+                        y: 0,
+                        width: "100%",
+                        height: "100%"
+                    },
                     roam: {
-                        // focus: map3d(_orgs)
+                        focus:_focus,
+                        autoRotate: true,
+                        preserve: false
+                    },
+                    minZoom: 1,
+                    maxZoom: 3,
+                    itemStyle:{
+                        emphasis:{label:{show:false},areaStyle:{color:'#008FE0'} }
                     }
                 }]
-            });
+            },true);
         }
 
         function onOrgMapError(error){
@@ -1911,6 +2369,10 @@
             .state('compare_list', {
                 url: '/compare_list/:func/:type1/:id1/:type2',
                 templateUrl: 'templates/compare_list.html'
+            })
+            .state('development', {
+                url: '/development/:type/:id/:pane',
+                templateUrl: 'templates/development.html'
             })
             .state('map', {
                 url: '/map/:type1/:id1/:type2/:id2',

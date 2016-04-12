@@ -1,48 +1,35 @@
-<ion-view class="graph map" ng-controller="MapController">
+<ion-view class="development" ng-controller="DevelopmentController">
     <ion-header-bar class="bar-mysterious">
-        <button  back-button class="button-clear"><i class="ion-chevron-left"></i>返回</button>
-        <h1 class="title">地缘对比</h1>
+        <button ng-click="back()" class="button-clear"><i class="ion-chevron-left"></i>返回</button>
+        <h1 class="title">发展趋势</h1>
         <button class="button">口袋能源</button>
     </ion-header-bar>
     <ion-content>
-        <map2d id="map2d" class="map2d" 
-                    data1="members1" 
-                    data2="members2"
-                    data3="members3"
-                    data1-legend="item1.name"
-                    data2-legend="item2.name"></map2d>
-        <h1 class="title-header with-divider">
-            {{ item1.name }}<span class="versus">对比</span>{{ item2.name }}
-        </h1>
-        <div class="map-result-block" ng-if="members1 != 'undefined'">
-            <h3>{{ item1.name }} （{{members1.length}}）</h3>
-            <div class="result-main">
-                <ul>
-                    <li ng-repeat="item in members1">
-                        {{item.name}}
-                    </li>
-                </ul>
+        <div class="title-header">
+            <h1 class="title">{{ item.name }}</h1>
+            <h2 class="subtitle">{{ item.name_english || item.slug }}</h2>
+            <div class="action action-tab-row">
+                <div class="action-item action-development" ng-click="select('gdp')" ng-class="{active:pane == 'gdp'}">
+                    <span><i class="icon iconfont">&#xe601;</i></span>
+                    <button class="large">GDP</button>
+                </div>
+                <div class="action-item action-data" ng-click="select('population')" ng-class="{active:pane == 'population'}">
+                    <span><i class="icon iconfont">&#xe602;</i></span>
+                    <button class="large">人口</button>
+                </div>
+                <div class="action-item action-earth" ng-click="select('co2')" ng-class="{active:pane == 'co2'}">
+                    <span><i class="icon iconfont">&#xe600;</i></span>
+                    <button class="large">碳排放</button>
+                </div>
             </div>
         </div>
-        <div class="map-result-block" ng-if="members2 != 'undefined'">
-            <h3>{{ item2.name }}（{{members2.length}}））</h3>
-            <div class="result-main">
-                <ul>
-                    <li ng-repeat="item in members2">
-                        {{item.name}}
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="map-result-block" ng-if="members3 != 'undefined'">
-            <h3>同属于两个组织的国家（{{members3.length}}）</h3>
-            <div class="result-main">
-                <ul>
-                    <li ng-repeat="item in members3">
-                        {{item.name}}
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <develop2d ng-if="mapData != undefined"  id="map2d" class="map2d" 
+                    data1="mapData" 
+                    data1-legend="dataKey"
+                    data2="_min"
+                    data3="_max"
+                    data4="years"
+                    ></develop2d>
+        
     </ion-content>
 </ion-view>

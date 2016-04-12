@@ -88,6 +88,22 @@
                 });
                 return this._current_aggregation_deferred.promise;
             },
+            getMemberCountryStats: function(data){
+                //develop
+                var members = data.members;
+                var data_key = data.data_key;
+                this._current_aggregation_deferred = $q.defer();
+                this._total_aggregations_count  = members.length;
+                this._aggregated_stats = {};
+                this._current_aggregation_count = 0;
+                var that = this;
+                members.forEach(function(member){
+                    that.getCountryOneStat(member.id,data_key)
+                        .then(that._on_org_country_stats.bind(that),
+                              that._on_aggregation_error.bind(that));
+                });
+                return this._current_aggregation_deferred.promise;
+            },
             getOrganizationById: function(orgId){
                 var sql = "SELECT * FROM organization WHERE id=?";
                 return this.runQuery(sql, [orgId]);
@@ -119,6 +135,10 @@
             getAllCountries: function(){
                 var sql = "SELECT * FROM country;"
                 return this.runQuery(sql, []);
+            },
+            getCountryOneStat: function(countryId, data_key){
+                var sql = "SELECT * FROM country_data WHERE country_id=? AND data_key = ? ORDER BY data_version ASC";
+                return this.runQuery(sql, [countryId, data_key]);
             },
             getCountryAllStats: function(countryId){
                 var sql = "SELECT * FROM country_data WHERE country_id=? ORDER BY data_version ASC";
@@ -162,6 +182,33 @@
             },
             _on_aggregation_error: function(error){
                 console.log('error aggregating country stats', error);
+            },
+            _on_org_country_stats: function(result){
+                var rows = result.rows;
+                var metaDataMap = this.getStatsMetaDataMap();
+                var aggregatedStats = this._aggregated_stats;
+                var parseFloat = window.parseFloat || Number.parseFloat;
+                // every row is a country
+                var country_stats_data = {};
+
+                for(var i = 0; i < rows.length; i++){
+                    var item = rows.item(i);
+                    var rawKey = item.country_id;
+                    if(!(rawKey in aggregatedStats)){
+                        aggregatedStats[rawKey] = {};
+                        aggregatedStats[rawKey].source = [];
+                    }
+                    country_stats_data.id = rawKey;
+                    var _data = {};
+                    _data.data_version = item.data_version;
+                    _data.data_value = item.data_value;
+                    aggregatedStats[rawKey].source.push(_data);
+                }
+
+                this._current_aggregation_count++;
+                if(this._current_aggregation_count == this._total_aggregations_count){
+                    this._current_aggregation_deferred.resolve(aggregatedStats);
+                }
             },
             _on_country_stats: function(result){
                 var rows = result.rows;

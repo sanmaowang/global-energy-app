@@ -1,13 +1,16 @@
 <ion-view class="home" ng-controller="HomeController">
     <ion-header-bar class="bar-mysterious">
-        <h1 class="title">全球能源治理</h1>
+        <h1 class="title">能源地平线</h1>
         <button class="button">口袋能源</button>
     </ion-header-bar>
     <div class="input-wrapper">
         <div class="input-box" ng-class="{ 'auto-complete' : suggestions.length > 0 &amp;&amp; !hideSuggestions }">
             <form><input ng-blur="hideSuggestions = true" ng-focus="hideSuggestions = false" ng-change="autoComplete(searchText)" ng-model="searchText" placeholder="搜索国家或组织名" type="text"/></form>
-            <div class="close-wrapper">
-                <i class="icon ion-close-round close-btn" ng-click="clearSelection($event)"></i>
+            <div ng-show="!showCard" class="search-wrapper">
+                <i class="icon iconfont">&#xe609;</i>
+            </div>
+            <div ng-show="showCard" class="close-wrapper">
+                <i class="icon iconfont" ng-click="clearSelection($event)">&#xe60a;</i>
             </div>
             <div class="auto-complete-item-list">
                 <a ng-hide="hideSuggestions" ng-click="showDetails(suggestion)" ng-repeat="suggestion in suggestions" class="auto-complete-item" href="#">{{ suggestion.name }}</a>
@@ -32,9 +35,9 @@
                     </ul>
                     <table class="table-action">
                         <tr>
-                        <td><a href="#" class="btn-detail" ng-click="gotoDetails(selectedItem)">详细数据</a></td>
-                        <td><a href="#" class="btn-data" ng-click="goChooseCompareType(selectedItem)">数据对比</a></td>
-                        <td><a href="#" class="btn-map" ng-if="selectedItem.type == 'organization'" ng-click="goChooseMapCompareType(selectedItem)">地缘对比</a></td>
+                        <td><a href="#" class="btn-detail" ng-click="gotoDetails(selectedItem)"><i class="iconfont">&#xe603;</i> 详细数据</a></td>
+                        <td><a href="#" class="btn-data" ng-click="goChooseCompareType(selectedItem)"><i class="iconfont">&#xe604;</i> 数据对比</a></td>
+                        <td><a href="#" class="btn-map" ng-if="selectedItem.type == 'organization'" ng-click="goChooseMapCompareType(selectedItem)"><i class="iconfont">&#xe605;</i> 地图对比</a></td>
                         </tr>
                     </table>
                 </div>

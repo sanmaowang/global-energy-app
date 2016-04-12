@@ -10,12 +10,12 @@
         top: 45px;
     }
 
-    .close-wrapper {
+    .close-wrapper,.search-wrapper {
         position: absolute;
-        top: 20px;
-        right: 20px;
-        font-size: 14px;
-        color: #979797;
+        top: 24px;
+        right: 24px;
+        font-size: 16px;
+        color: #ccc;
     }
 
     .close-btn {

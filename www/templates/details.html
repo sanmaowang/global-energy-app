@@ -1,45 +1,61 @@
 <ion-view class="details" ng-controller="DetailsController">
     <ion-header-bar class="bar-mysterious">
-        <button  back-button class="button-clear"><i class="ion-chevron-left"></i>返回</button>
-        <h1 class="title">全球能源治理</h1>
-        <button class="button">口袋能源</button>
+        <button  ng-click="back()" class="button-clear"><i class="ion-chevron-left"></i>返回</button>
+        <h1 class="title">能源地平线</h1>
+        <!-- <button class="button">口袋能源</button> -->
     </ion-header-bar>
     <ion-content>
         <div class="content-container">
-            <div class="title-header">
+            <div class="title-header" ng-class="{ 'title-red' : itemType == 'country', 'title-blue' : itemType == 'organization' }">
                 <h1 class="title">{{ item.name }}</h1>
                 <h2 class="subtitle">{{ item.name_english || item.slug }}</h2>
             </div>
+            <div class="section-block">
+                <h2 class="section-title">基本信息</h2>
+                <div ng-if="properties != undefined" class="section">
+                    <ul class="table-list">
+                        <li class="row" ng-repeat="(key, value) in properties">
+                            <span class="col trivial">{{ key }}：</span>
+                            <span class="col"><span ng-if="key != '国旗'">{{ value }}</span><img class="icon-wrapper" ng-if="key == '国旗'" style="background-image: url('img/flags/{{ value }}')" /></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <div ng-if="members != undefined &amp;&amp; members.length > 0">
+                <div class="section-block section-block-nth">
                 <h2 class="section-title">成员国(34)</h2>
-                <div class="icon-grid with-divider">
+                <div class="icon-grid">
                     <div class="icon-column" ng-repeat="member in members">
                         <div class="icon-wrapper" style="background-image: url('img/flags/{{ member.flag }}')"></div>
                         <div class="icon-text">{{ member.name }}</div>
                     </div>
                 </div>
+                </div>
             </div>
-            <h2 class="section-title">基本信息</h2>
-            <div ng-if="properties != undefined" class="section margin-bottom-large">
-                <ul class="table-list">
-                    <li class="row" ng-repeat="(key, value) in properties">
-                        <span class="col trivial">{{ key }}</span>
-                        <span class="col"><span ng-if="key != '国旗'">{{ value }}</span><img class="icon-wrapper" ng-if="key == '国旗'" style="background-image: url('img/flags/{{ value }}')" /></span>
-                    </li>
-                </ul>
-            </div>
-            <div ng-if="stats != undefined" class="section margin-bottom-large">
+            <div class="section-block">
+            <h2 class="section-title">相关数据</h2>
+            <div ng-if="stats != undefined" class="section">
                 <ul class="table-list">
                     <li class="row" ng-repeat="(key, stat) in stats">
-                        <span class="col trivial">{{ key }}</span>
-                        <span class="col"><span>{{ stat.value | withUnit:stat.unit:1 }}</span><span class="trivial"> (截止{{ stat.version }}年)</span></span>
+                        <span class="col trivial">{{ key }}：</span>
+                        <span class="col"><span>{{ stat.value | withUnit:stat.unit:1 }}</span><span class="trivial"> [截止{{ stat.version }}年]</span></span>
                     </li>
                 </ul>
             </div>
-            <div class="action bottom-row">
-                <button ng-click="goChooseCompareType()" ng-if="members != undefined &amp;&amp; members.length > 0"  class="clear-button large">发展趋势</button>
-                <button ng-click="goChooseCompareType()" class="clear-button large">数据对比</button>
-                <button ng-if="itemType == 'organization'" ng-click="goChooseMapCompareType()" class="clear-button large">地缘对比</button>
+            </div>
+            <div class="action action-bottom-row">
+                <div class="action-item action-development" ng-if="itemType == 'organization'" ng-click="goChooseDevType()">
+                    <span><i class="icon iconfont">&#xe607;</i></span>
+                    <button class="large">发展趋势</button>
+                </div>
+                <div class="action-item action-data" ng-click="goChooseCompareType()">
+                    <span><i class="icon iconfont">&#xe604;</i></span>
+                    <button class="large">数据对比</button>
+                </div>
+                <div class="action-item action-earth" ng-if="itemType == 'organization'" ng-click="goChooseMapCompareType()" >
+                    <span><i class="icon iconfont">&#xe605;</i></span>
+                    <button class="large">地图对比</button>
+                </div>
             </div>
         </div>
     </ion-content>

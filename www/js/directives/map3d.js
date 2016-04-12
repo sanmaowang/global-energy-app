@@ -44,7 +44,7 @@
                             minZoom: 1,
                             maxZoom: 3,
                             itemStyle:{
-                                emphasis:{label:{show:false},areaStyle:{color:'#d94e5d'} }
+                                emphasis:{label:{show:false},areaStyle:{color:'#F34C4D'} }
                             },
                             // Empty data
                             data: [{}]

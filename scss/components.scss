@@ -104,14 +104,14 @@
     border-radius: 8px;
     overflow: hidden;
     .ecard-header.red {
-        background-color: #BE474A;
+        background-color: #F34C4D;
         color: white;
         * {
             color: white;
         }
     }
     .ecard-header.yellow {
-        background-color: #FFB738;
+        background-color: #008FE0;
         color: white;
         * {
             color: white;
@@ -180,23 +180,6 @@
     td{
         width: 33%;
         padding: 5px 0;
-    }
-    .btn-detail{
-        background:url(../img/icons/detail-icon@2x.png) no-repeat 0 0;
-        background-size:17px 100%;
-        padding-left:20px;
-        line-height: 32px;
-    }
-    .btn-data{
-        background:url(../img/icons/data-icon@2x.png) no-repeat 0 0;
-        background-size:17px 100%;
-        padding-left:20px;
-        line-height: 32px;
-    }
-    .btn-map{
-        background:url(../img/icons/map-icon@2x.png) no-repeat 0 0;
-        background-size:17px 100%;
-        padding-left:20px;
         line-height: 32px;
     }
 }

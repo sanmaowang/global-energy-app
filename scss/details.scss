@@ -1,35 +1,37 @@
 .details {
-    background-color:#1E2832;
+    background-color:#212225;
     color: #fff;
     .icon-grid {
-        margin: 0 15px;
-        padding: 8px 0 15px 0;
+        margin: 0 10px;
+        padding: 0 ;
+    }
+    .icon-grid .icon-column{
+        margin-bottom: 10px;
     }
     .table-list {
-        font-size: 14px;
+        font-size: 15px;
     }
-
     .table-list .col {
-        padding: 8px;
-        background-color:#fff;
-        color: #4A4A4A;
+        padding: 6px 0;
+        color: #fff;
+        .trivial{
+            font-size: 11px;
+        }
     }
 
     .table-list .col:nth-child(1) {
-        background-color: #323C46;
-        color: #fff;
+        color: #eee;
+        font-size: 13px;
         width: 135px;
-        border-right: 1px solid #EAEAEA;
     }
 
     .title-header {
         text-align: center;
-        padding: 15px 10px 10px;
         background-color:#404A5A;
-        border-bottom: 1px solid #000;
+        padding: 30px 0px 25px;
         .title {
             font-size: 20px;
-            font-weight: bold;
+            font-weight: 800;
             color: #fff;
         }
         .subtitle {
@@ -38,18 +40,33 @@
             font-weight: 400;
         }
     }
+    .title-red{
+        background-color:#F34C4D;
+    }
+
+    .title-blue{
+        background-color:#008FE0;
+    }
 
     .section-title {
+        padding-left:20px;
         font-size: 16px;
         color: #fff;
         font-weight: 400;
-        text-align: center;
-        margin-top: 10px;
-        margin-bottom: 10px;
+        text-align: left;
+        margin-bottom: 25px;
     }
 
     .section {
-        padding:0 15px;;
+        padding:0 20px;;
+    }
+
+    .section-block{
+        padding:25px 0;
+        border-bottom:1px solid #000;
+    }
+    .section-block-nth{
+        background:#27313B;
     }
 
     .centered-row {
@@ -67,6 +84,112 @@
         text-align: center;
         button{
             margin: 0 2px;
+        }
+    }
+    .action-bottom-row{
+        position:relative;
+        bottom:0;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        flex-shrink: 0;
+        align-content: flex-start;
+        .action-item{
+            flex-grow:1;
+            justify-content: center;
+            text-align:center;
+            padding:15px 0;
+            button{
+                color: #fff;
+                font-size: 16px;
+                background: none;
+                border:none;
+            }
+            span{
+                margin:10px 0;
+                display: block;
+            }
+            .icon{
+                font-size: 42px;
+            }
+        }
+        .action-development{
+            background-color: #27313B;
+        }
+        .action-data{
+            background-color: #27313B;
+            border-left:1px solid #222C36;
+            border-right:1px solid #222C36;
+        }
+        .action-earth{
+            background-color:#27313B;
+        }
+    }
+    
+}
+.development{
+    background-color:#212225;
+    color: #fff;
+    .map2d{
+        width: 100%;
+        height: 350px;
+        display: block;
+    }
+    .title-header {
+        text-align: center;
+        background-color:#000;
+        padding: 15px 10px 10px;
+        border-bottom: 1px solid #000;
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+        }
+        .subtitle {
+            font-size: 16px;
+            color: #fff;
+            font-weight: 400;
+        }
+    }
+    .action-tab-row{
+        position:relative;
+        bottom:0;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        flex-shrink: 0;
+        align-content: flex-start;
+        .action-item{
+            margin-top: 15px;
+            flex-grow:1;
+            justify-content: center;
+            text-align:center;
+            border-right:1px solid #333;
+            padding:5px 0;
+            button{
+                color: #fff;
+                font-size: 12px;
+                background: none;
+                border:none;
+            }
+            span{
+                margin:5px 0;
+                display: block;
+            }
+            .icon{
+                font-size: 32px;
+            }
+            &:last-child{
+                border-right:none;
+            }
+        }
+        .active{
+            color: #F34C4D;
+            button{
+                color: #F34C4D;
+            }
         }
     }
 }

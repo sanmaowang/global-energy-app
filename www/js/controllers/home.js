@@ -48,18 +48,33 @@
                 chart.setOption({
                     series: [{
                         type: 'map3d',
+                        baseLayer: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.3)'
+                        },
+                        mapLocation: {
+                            x: 0,
+                            y: 0,
+                            width: "100%",
+                            height: "100%"
+                        },
+                        minZoom: 1,
+                        maxZoom: 3,
+                        itemStyle:{
+                            emphasis:{label:{show:false},areaStyle:{color:'#F34C4D'} }
+                        },
                         data: [{
                             name: selectedItemName,
                             selected: true
                         }],
                         roam: {
-                            focus: selectedItemName
+                            focus: selectedItemName,
+                            autoRotate: true,
+                            preserve: false
                         }
                     }]
-                });
+                },true);
             }else if(item.type == 'organization'){
                 $scope.selectedItem = item;
-                console.log(item);
                 $energyDao.getOrganizationMemberById(item.id)
                         .then(onOrgMap,onOrgMapError);
                 var stat = {};
@@ -110,17 +125,31 @@
                 series: [{
                     type: 'map3d',
                     data: [{
-                        name: selectedItemName,
-                        selected: false
                     }],
-                    roam: {}
+                    baseLayer: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.3)'
+                    },
+                    mapLocation: {
+                        x: 0,
+                        y: 0,
+                        width: "100%",
+                        height: "100%"
+                    },
+                    roam: {
+                        autoRotate: true,
+                        preserve: false
+                    },
+                    minZoom: 1,
+                    maxZoom: 3
                 }]
-            });
+            },true);
             // $scope.selectedItem = undefined;
             $scope.searchText = undefined;
             $scope.suggestions = [];
             $scope.showCard = false;
-            cordova.plugins.Keyboard.close();
+            if(typeof cordova != 'undefined'){
+                cordova.plugins.Keyboard.close();
+            }
         }
 
         function mapData(arr) {
@@ -206,15 +235,32 @@
         function onOrgMap(result){
             var _orgs = mapData(result.rows);
             var chart = $scope.chartRef.ref;
+            var _focus = _orgs[0].name || "";
             chart.setOption({
                 series: [{
                     type: 'map3d',
                     data: _orgs,
+                    baseLayer: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.3)'
+                    },
+                    mapLocation: {
+                        x: 0,
+                        y: 0,
+                        width: "100%",
+                        height: "100%"
+                    },
                     roam: {
-                        // focus: map3d(_orgs)
+                        focus:_focus,
+                        autoRotate: true,
+                        preserve: false
+                    },
+                    minZoom: 1,
+                    maxZoom: 3,
+                    itemStyle:{
+                        emphasis:{label:{show:false},areaStyle:{color:'#008FE0'} }
                     }
                 }]
-            });
+            },true);
         }
 
         function onOrgMapError(error){
